@@ -66,9 +66,64 @@
 
                 <div class="col-md-6">
                     <div id="map">
-                            <script src="map.js"></script>
+                            <script>
+                                const map = L.map('map').setView([44.432300, 26.106000], 15);
+
+                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    maxZoom: 19,
+                                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                }).addTo(map);
+                            </script>
                         
                             <script>
+
+                                async function getData(){
+                                    try{
+
+                                        const response = await fetch('./db/locations/all.json', {cache: "reload"});
+                                        const jsonData = await response.json();
+                                        
+                                        return jsonData;
+                                    }
+                                    catch(error){
+                                        return getData();
+                                    }
+                                }
+
+                                function addPoints(jobFind) {
+                                    getData().then(jsonData =>{
+                                        for (let i = 0; i < jsonData.length; i++) {
+                                        
+                                            const location = jsonData[i];
+                                            const lat = parseFloat(location.latitude);
+                                            const long = parseFloat(location.longitude);
+                                            const jobName = location.jobName;
+
+                                            if(jobFind === jobName){
+                                                const marker = L.marker([lat, long]).addTo(map);
+                                                marker.bindPopup(jobName);
+                                            }
+                                        }
+                                    })
+
+                                }
+
+                                function displayAll(){
+                                    getData().then(jsonData => {
+                                        for (let i = 0; i < jsonData.length; i++) {
+                                        
+                                            const location = jsonData[i];
+                                            const lat = parseFloat(location.latitude);
+                                            const long = parseFloat(location.longitude);
+                                            const jobName = location.jobName;
+
+                                            const marker = L.marker([lat, long]).addTo(map);
+                                            marker.bindPopup(jobName);
+
+                                        }
+                                    })
+                                }
+
 
                                 if("<?php
                                 
@@ -87,6 +142,8 @@
 
                                     ?>" === "true")
                                         addPoints("<?php echo $_GET['job']; ?>");
+                                    else
+                                        displayAll();
 
                             </script>
                         
