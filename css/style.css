@@ -1,0 +1,28 @@
+.header, .footer{
+    background-color: lightseagreen;
+}
+
+.header .navigation, .footer .navigation{
+    padding: 20px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.header .navigation li, .footer .navigation li{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.header .navigation li a, .footer .navigation li a{
+    color: black;
+    text-decoration: none;
+}
+
+.content{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#map{
+    height: 700px;
+}
