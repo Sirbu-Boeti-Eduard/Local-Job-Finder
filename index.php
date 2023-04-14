@@ -126,7 +126,6 @@
 
 
                                 if("<?php
-                                
                                     if(isset($_GET['job']))
                                         {
                                             $tempString = preg_replace('/\s+/', '', $_GET['job']);
@@ -138,8 +137,10 @@
                                                 echo "false";
                                         }
                                     else
-                                        echo "false";
-
+                                        {
+                                            echo "false";
+                                            $_GET['job'] = '';
+                                        }
                                     ?>" === "true")
                                         addPoints("<?php echo $_GET['job']; ?>");
                                     else
