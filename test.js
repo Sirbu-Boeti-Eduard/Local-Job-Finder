@@ -8,7 +8,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 function addPoints() {
     async function getData(){
-        const response = await fetch('./db/locations.json');
+        const response = await fetch('./db/locations.json', {cache: "reload"});
         const jsonData = await response.json();
         console.log(jsonData);
         return jsonData;
