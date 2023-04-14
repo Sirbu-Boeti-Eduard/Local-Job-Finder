@@ -12,5 +12,5 @@ $locations = R::findAll('job');
 $data = R::findAll('job');
 
 $json = json_encode($data);
-file_put_contents("db/locations/all.json", $json);
+file_put_contents("locations/all.json", $json);
 ?>
