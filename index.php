@@ -16,7 +16,9 @@
         integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
         crossorigin=""></script>
 
-    <?php include("location.php"); ?>
+    <?php 
+        include("data.php"); 
+    ?>
 
 </head>
 <body>
@@ -40,24 +42,78 @@
                 <div class="col-md-6">
                     <h1>Find Job Listings Near You</h1>
                     
-                    <?php 
+                    <div id="message"></div>
 
-                        if(isset($_GET['job'])){
-                            $tempString = preg_replace('/\s+/', '', $_GET['job']);
+                    <script>
+                        function searchFor(){
+                            const urlParams = new URLSearchParams(window.location.search);
+                            let jobName = urlParams.get('job');
 
-                            if(!empty($tempString)){
-                                echo "<h2> You searched for: ";
-                                echo $_GET['job']; 
-                                echo "</h2>";
+                            if (jobName) {
+                                message = document.getElementById("message");
+                                jobName = jobName.toLowerCase();
+                                jobName = jobName.charAt(0).toUpperCase() + jobName.slice(1);
+                                message.innerHTML = '<h2> You searched for: ' + jobName + '</h2>';
+                            } 
+                        }
+
+                    searchFor();
+                    
+                    </script>
+
+                    <form action="index.php" method="GET" autocomplete="off">
+                        <label for="job">Job</label>
+                        <input type="text" name="job" id="job" onKeyUp="showResults(this.value.toLowerCase())">
+                        <div id="result"></div>
+                    </form>
+
+                    <script>
+                        let search_terms = [];
+
+                        async function getJobs(retries = 3, delay = 1000){
+                            try{
+                                const response = await fetch('db/jobList.json', {cache: "reload"});
+                                search_terms = await response.json();
+                            }
+                            catch(error){
+                                if (retries > 0) {
+                                    await new Promise(resolve => setTimeout(resolve, delay));
+                                    return getJobs(retries - 1, delay);
+                                } 
+                                else{
+                                    throw new Error('Failed to fetch data');
+                                }
                             }
                         }
-                    ?>
-    
-                    <form action="index.php" method="GET">
-                        <label for="job">Job</label>
-                        <input type="text" name="job" id="job">
 
-                    </form>
+                        function autocompleteMatch(input) {
+                            if (input == '') {
+                                return search_terms;
+                            }
+                            let reg = new RegExp(input)
+                            return search_terms.filter(function(term) {
+                                term = term.toLowerCase();
+                                if (term.match(reg)) {
+                                    return term;
+                                }
+                            });
+                        }
+
+                        function showResults(val) {
+
+                            getJobs();
+
+                            res = document.getElementById("result");
+                            res.innerHTML = '';
+                            let list = '';
+                            let terms = autocompleteMatch(val);
+                            for (i=0; i<terms.length; i++) {
+                                list += '<li>' + terms[i] + '</li>';
+                            }
+                            res.innerHTML = '<ul>' + list + '</ul>';
+                        }
+                    </script>
+
                 </div>
 
                 <div class="col-md-6">
@@ -70,15 +126,20 @@
                                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             }).addTo(map);
 
-                            async function getData(){
+                            async function getData(retries = 3, delay = 1000){
                                 try{
                                     const response = await fetch('db/all.json', {cache: "reload"});
                                     const jsonData = await response.json();
-                                    
                                     return jsonData;
-                                }
+                                } 
                                 catch(error){
-                                    return getData();
+                                    if (retries > 0) {
+                                        await new Promise(resolve => setTimeout(resolve, delay));
+                                        return getData(retries - 1, delay);
+                                    } 
+                                    else {
+                                        throw new Error('Failed to fetch data');
+                                    }
                                 }
                             }
 
@@ -90,7 +151,7 @@
                                         const long = parseFloat(location.longitude);
                                         const jobName = location.jobName;
 
-                                        if(jobFind === jobName){
+                                        if(jobFind.toLowerCase() === jobName.toLowerCase()){
                                             const marker = L.marker([lat, long]).addTo(map);
                                             marker.bindPopup(jobName);
                                         }
@@ -113,28 +174,19 @@
                                 })
                             }
 
-                            function loadPoints(){
-                                if("<?php
-                                    if(isset($_GET['job'])){
-                                        $tempString = preg_replace('/\s+/', '', $_GET['job']);
-                                        if(!empty($tempString))
-                                            echo "true";
-                                        else
-                                            echo "false";
-                                    }
-                                    else{
-                                        echo "false";
-                                        $_GET['job'] = '';
-                                    }
-                                    ?>" === "true")
-                                        addPoints("<?php echo $_GET['job']; ?>");
-                                    else
-                                        displayAll();
+                            function loadPoints() {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const jobName = urlParams.get('job');
+
+                                if (jobName) {
+                                    addPoints(jobName);
+                                } 
+                                else {
+                                    displayAll();
+                                }
                             }
 
                             loadPoints();
-
-                            //setInterval(loadPoints, 5000); The markers dont get deleted; need to have a viewed[i]
 
                         </script>
                     </div>
