@@ -16,12 +16,13 @@
         integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
         crossorigin=""></script>
 
-    <?php include('db/location.php'); ?>
+    <?php include("location.php"); ?>
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css">
+ 
 </head>
 <body>
-
     <div class="header">
         <div class="container">
             <div class="row">
@@ -44,17 +45,15 @@
                     
                     <?php 
 
-                        if(isset($_GET['job']))
-                            {
-                                $tempString = preg_replace('/\s+/', '', $_GET['job']);
+                        if(isset($_GET['job'])){
+                            $tempString = preg_replace('/\s+/', '', $_GET['job']);
 
-                                if(!empty($tempString))
-                                {
-                                    echo "<h2> You searched for: ";
-                                    echo $_GET['job']; 
-                                    echo "</h2>";
-                                }
+                            if(!empty($tempString)){
+                                echo "<h2> You searched for: ";
+                                echo $_GET['job']; 
+                                echo "</h2>";
                             }
+                        }
                     ?>
     
                     <form action="index.php" method="GET">
@@ -66,91 +65,85 @@
 
                 <div class="col-md-6">
                     <div id="map">
-                            <script>
-                                const map = L.map('map').setView([44.432300, 26.106000], 15);
+                        <script>
+                            const map = L.map('map').setView([44.432300, 26.106000], 19);
 
-                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    maxZoom: 19,
-                                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                }).addTo(map);
-                            </script>
-                        
-                            <script>
+                            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                maxZoom: 19,
+                                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                            }).addTo(map);
 
-                                async function getData(){
-                                    try{
+                            L.control.locate().addTo(map);
 
-                                        const response = await fetch('./db/locations/all.json', {cache: "reload"});
-                                        const jsonData = await response.json();
-                                        
-                                        return jsonData;
-                                    }
-                                    catch(error){
-                                        return getData();
-                                    }
+                            async function getData(){
+                                try{
+                                    const response = await fetch('db/all.json', {cache: "reload"});
+                                    const jsonData = await response.json();
+                                    
+                                    return jsonData;
                                 }
-
-                                function addPoints(jobFind) {
-                                    getData().then(jsonData =>{
-                                        for (let i = 0; i < jsonData.length; i++) {
-                                        
-                                            const location = jsonData[i];
-                                            const lat = parseFloat(location.latitude);
-                                            const long = parseFloat(location.longitude);
-                                            const jobName = location.jobName;
-
-                                            if(jobFind === jobName){
-                                                const marker = L.marker([lat, long]).addTo(map);
-                                                marker.bindPopup(jobName);
-                                            }
-                                        }
-                                    })
-
+                                catch(error){
+                                    return getData();
                                 }
+                            }
 
-                                function displayAll(){
-                                    getData().then(jsonData => {
-                                        for (let i = 0; i < jsonData.length; i++) {
-                                        
-                                            const location = jsonData[i];
-                                            const lat = parseFloat(location.latitude);
-                                            const long = parseFloat(location.longitude);
-                                            const jobName = location.jobName;
+                            function addPoints(jobFind) {
+                                getData().then(jsonData =>{
+                                    for (let i = 0; i < jsonData.length; i++) {
+                                        const location = jsonData[i];
+                                        const lat = parseFloat(location.latitude);
+                                        const long = parseFloat(location.longitude);
+                                        const jobName = location.jobName;
 
+                                        if(jobFind === jobName){
                                             const marker = L.marker([lat, long]).addTo(map);
                                             marker.bindPopup(jobName);
-
                                         }
-                                    })
-                                }
+                                    }
+                                })
+                            }
 
+                            function displayAll(){
+                                getData().then(jsonData => {
+                                    for (let i = 0; i < jsonData.length; i++) {
+                                        const location = jsonData[i];
+                                        const lat = parseFloat(location.latitude);
+                                        const long = parseFloat(location.longitude);
+                                        const jobName = location.jobName;
 
+                                        const marker = L.marker([lat, long]).addTo(map);
+                                        marker.bindPopup(jobName);
+
+                                    }
+                                })
+                            }
+
+                            function loadPoints(){
                                 if("<?php
-                                    if(isset($_GET['job']))
-                                        {
-                                            $tempString = preg_replace('/\s+/', '', $_GET['job']);
-                                            if(!empty($tempString))
-                                                {
-                                                    echo "true";
-                                                }
-                                            else
-                                                echo "false";
-                                        }
-                                    else
-                                        {
+                                    if(isset($_GET['job'])){
+                                        $tempString = preg_replace('/\s+/', '', $_GET['job']);
+                                        if(!empty($tempString))
+                                            echo "true";
+                                        else
                                             echo "false";
-                                            $_GET['job'] = '';
-                                        }
+                                    }
+                                    else{
+                                        echo "false";
+                                        $_GET['job'] = '';
+                                    }
                                     ?>" === "true")
                                         addPoints("<?php echo $_GET['job']; ?>");
                                     else
                                         displayAll();
+                            }
 
-                            </script>
-                        
+                            loadPoints();
+
+                            //setInterval(loadPoints, 5000); The markers dont get deleted; need to have a viewed[i]
+
+                        </script>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -167,6 +160,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
