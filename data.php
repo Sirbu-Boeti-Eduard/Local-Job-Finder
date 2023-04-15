@@ -5,17 +5,38 @@ include("db/config.php");
 
 R::setup("mysql:host=$DB_HOST;dbname=$DB_NAME", $DB_USER, $DB_PASS);
 
-$data = R::findAll('job');
+if(isset($_GET['job'])){
+    $getRequest = $_GET['job'];
 
-$all = json_encode($data);
-file_put_contents("db/all.json", $all);
+    if($getRequest == ""){
+        $data = R::findAll('job');
+    }
+    else{
+        $data = R::find('job', ' LOWER(jobName) = ?', [ $getRequest ]);
+    }
 
-$jobNames = R::getAll('SELECT DISTINCT jobName from job');
+    $search = json_encode($data);
 
-$jobList = array_map(function($jobNames) {
-    return $jobNames['jobName'];
-}, $jobNames);
+    header('Content-Type: application/json');
+    echo $search;
+}
+else if(isset($_GET['search'])){
+    $getRequest = $_GET['search'];
 
-$jobList = json_encode($jobList);
-file_put_contents('db/jobList.json', $jobList);
+    if($getRequest == ""){
+        $data = R::getAll('SELECT DISTINCT jobName from job');
+    }
+    else{
+        $data = R::getAll('SELECT DISTINCT jobName FROM job WHERE LOWER(jobName) LIKE ?', ['%' . $getRequest . '%']);
+    }
+
+    $search = $search = array_map(function($data) {
+        return $data['jobName'];
+    }, $data);
+    $search = json_encode($search);
+
+    header('Content-Type: application/json');
+    echo $search;
+}
+
 ?>
