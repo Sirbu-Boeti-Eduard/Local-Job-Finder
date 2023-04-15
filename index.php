@@ -18,9 +18,6 @@
 
     <?php include("location.php"); ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css">
- 
 </head>
 <body>
     <div class="header">
@@ -72,8 +69,6 @@
                                 maxZoom: 19,
                                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             }).addTo(map);
-
-                            L.control.locate().addTo(map);
 
                             async function getData(){
                                 try{
