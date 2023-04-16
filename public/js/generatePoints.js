@@ -1,6 +1,6 @@
 async function getData(jobFind, retries, delay){
     try{
-        const getRequest = 'JSON/locations/' + jobFind + '.json';
+        const getRequest = 'JSON/locations/all.json';
         const response = await fetch(getRequest, {cache: "reload"});
         const jsonData = await response.json();
         return jsonData;

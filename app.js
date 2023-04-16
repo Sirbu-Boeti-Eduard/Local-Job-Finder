@@ -23,8 +23,9 @@ db.connect((error) => {
     if(error) {
         console.log("Failed connection " + error);
     }
-    else
+    else{ 
         console.log("Successful connection");
+    }
 })
 
 //HBS as default view
@@ -52,14 +53,4 @@ app.get("/login", (req, res) => {
 //Starting the app
 app.listen(9000, ()=> {})
 
-//Updating the JSON files
-function updateJSON(){
-    db.query("SELECT DISTINCT jobName from job", (err, rows) => {
-        if(err)
-            console.log("Query failed for search");
-        else    
-            console.log(rows);
-    })
-}
-
-updateJSON();
+require('./query.js');
