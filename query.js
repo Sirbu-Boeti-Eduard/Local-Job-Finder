@@ -1,6 +1,7 @@
 const fs = require('fs');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+const { json } = require('express');
 
 //Database credentials
 dotenv.config({path: '.env'});
@@ -39,7 +40,7 @@ db.query(query, (error, results, fields) => {
   });
 });
 
-const query1 = 'SELECT DISTINCT jobName FROM job';
+const query1 = 'SELECT DISTINCT jobName FROM job ORDER BY jobName';
 
 db.query(query1, (error, results, fields) => {
   if (error) {
@@ -47,7 +48,7 @@ db.query(query1, (error, results, fields) => {
     return;
   }
   const search = results.map(data => data.jobName);
-  const jsonResults = JSON.stringify(search);
+  let jsonResults = JSON.stringify(search);
 
   fs.writeFile('public/JSON/search/jobList.json', jsonResults, (err) => {
     if (err) throw err;
