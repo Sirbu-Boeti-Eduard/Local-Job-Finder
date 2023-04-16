@@ -42,7 +42,7 @@
                     <script src="displaySearchResult.js"></script>
 
                     <form action="index.php" method="GET" autocomplete="off">
-                        <label for="job">Job</label>
+                        <label for="job">Job: </label>
                         <input type="text" name="job" id="job" onKeyUp="showResults(this.value.toLowerCase())">
                         <div id="result"></div>
 

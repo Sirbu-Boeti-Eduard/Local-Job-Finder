@@ -23,10 +23,11 @@ function addPoints(jobFind) {
             const lat = parseFloat(location.latitude);
             const long = parseFloat(location.longitude);
             const jobName = location.jobName.toLowerCase();
+            const jobNameShow = jobName.charAt(0).toUpperCase() + jobName.slice(1);
 
             if(jobFind === jobName){
                 const marker = L.marker([lat, long]).addTo(map);
-                marker.bindPopup(jobName);
+                marker.bindPopup(jobNameShow);
             }
         }
     })

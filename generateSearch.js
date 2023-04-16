@@ -39,7 +39,7 @@ function showResults(val) {
     let list = '';
     let terms = autocompleteMatch(val);
     for (i=0; i<terms.length; i++) {
-        list += '<li>' + terms[i] + '</li>';
+        list += '<a href="index.php?job=' + terms[i].toLowerCase() +'">' + '<li class="results">' + terms[i] + '</li>' + '</a>';
     }
     res.innerHTML = '<ul>' + list + '</ul>';
 }
