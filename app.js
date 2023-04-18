@@ -77,7 +77,7 @@ app.use(express.urlencoded({extended: 'false'}));
 app.use(express.json());
 
 app.post("/register", (req, res) => {    
-    const { username, passwd, passwd_cnf } = req.body;
+    const { username, passwd, passwd_cnf, lat, lng } = req.body;
 
     db.query('SELECT username FROM user WHERE username = ?', [username], async (error, results) => {
         if(error){
@@ -96,7 +96,7 @@ app.post("/register", (req, res) => {
         } else {
             let hashedPassword = await bcrypt.hash(passwd, 8);
 
-            db.query('INSERT INTO user SET ?', {username: username, passwd: hashedPassword}, (error, result) => {
+            db.query('INSERT INTO user SET ?', {username: username, passwd: hashedPassword, latitude: lat, longitude: lng}, (error, result) => {
                 if(error) {
                     console.log(error);
                     res.render('register', {

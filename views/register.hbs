@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin=""></script>
+
 </head>
 <body>
     <div class="header">
@@ -29,30 +36,79 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="/register" method="POST">
-                       <p>
-                            <label for="username">Username</label>
-                            <input type="text" name="username" id="username">
-                        </p>
+                    <form action="/register" method="POST" id="register">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username">
+                                </p>
 
-                        <p>
-                            <label for="passwd">Password</label>
-                            <input type="password" name="passwd" id="passwd">
-                        </p>
+                                <p>
+                                    <label for="passwd">Password</label>
+                                    <input type="password" name="passwd" id="passwd">
+                                </p>
 
-                        <p>
-                            <label for="passwd_cnf">Confirm Password</label>
-                            <input type="password" name="passwd_cnf" id="passwd_cnf">
-                        </p>
+                                <p>
+                                    <label for="passwd_cnf">Confirm Password</label>
+                                    <input type="password" name="passwd_cnf" id="passwd_cnf">
+                                </p>
 
-                        <p>
-                            <input type="submit" value="Register" class="btn btn-primary">
-                        </p>
+                                <p>
+                                    <input type="submit" value="Register" class="btn btn-primary">
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2>Place your home location</h2>
+                                    </div>
+                                </div>
+
+                                <div id="map">
+                                    <script src="js/generateMap.js"></script>
+                                </div>
+                            
+                                <input type="hidden" name="lat" id="lat">
+                                <input type="hidden" name="lng" id="lng">
+
+                                <script>
+                                
+                                    var marker;
+
+                                    map.on('click', function(e) {
+                                        if (marker) {
+                                            map.removeLayer(marker);
+                                        }
+
+                                        marker = L.marker(e.latlng).addTo(map);
+                                    });
+
+                                    var form = document.getElementById('register');
+
+                                    form.addEventListener('submit', function(e) {
+                                        e.preventDefault();
+
+                                        var lat = marker.getLatLng().lat;
+                                        var lng = marker.getLatLng().lng;
+
+                                        document.getElementById('lat').value = lat;
+                                        document.getElementById('lng').value = lng;
+
+                                        // Submit the form to your server
+                                        form.submit();
+                                    });
+                                </script>
+                            </div>
+                                    
+                        </div>
                       
-                        {{#if message_register}}
-                            <h4 class="alert alert-danger mt-4">{{message_register}}</h4>          
-                        {{/if}}        
-
+                        <div class="row">
+                            {{#if message_register}}
+                                <h4 class="alert alert-danger mt-4">{{message_register}}</h4>          
+                            {{/if}} 
+                        </div>
                     </form>
                 </div>
             </div>
