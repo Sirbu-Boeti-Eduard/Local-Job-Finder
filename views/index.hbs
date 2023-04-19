@@ -23,10 +23,12 @@
                 <div class="col-md-12">
                     <ul class="navigation">
                         <li><a href="index">Home</a></li>
-                        <li><a href="login">Log In</a></li>
-                        <li><a href="">About</a></li>
                         {{#if username}}
+                            <li><a href="chat">Chat</a></li>
+                            <li><a href="post">Post a Job</a></li>
                             <li><strong>Hello,</strong> {{username}}</li>
+                        {{else}}
+                            <li><a href="login">Log In</a></li>
                         {{/if}}
                     </ul>
                 </div>
@@ -53,7 +55,7 @@
 
                     <form action="index" method="GET" autocomplete="off">
                         <label for="job">Job: </label>
-                        <input type="text" name="job" id="job" onKeyUp="showResults(this.value.toLowerCase())">
+                        <input type="text" name="job" id="job" onKeyUp="showResults(this.value.toLowerCase())" onclick="showResults()">
                         <div id="result"></div>
 
                         <script src="js/convertLower.js"></script>

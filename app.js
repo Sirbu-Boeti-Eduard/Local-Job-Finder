@@ -71,6 +71,9 @@ app.get("/register", (req, res) => {
     res.render("register");
 })
 
+app.get("/chat", (req, res) => {
+    res.render("chat");
+})
 
 //Starting the app
 app.listen(9000, ()=> {})
@@ -84,7 +87,7 @@ app.use(express.urlencoded({extended: 'false'}));
 app.use(express.json());
 
 app.post("/register", (req, res) => {    
-    const { username, passwd, passwd_cnf, lat, lng } = req.body;
+    const { username, passwd, passwd_cnf, lat, lng, fname, lname, address, CNP } = req.body;
 
     db.query('SELECT username FROM user WHERE username = ?', [username], async (error, results) => {
         if(error){
@@ -103,7 +106,17 @@ app.post("/register", (req, res) => {
         } else {
             let hashedPassword = await bcrypt.hash(passwd, 8);
 
-            db.query('INSERT INTO user SET ?', {username: username, passwd: hashedPassword, latitude: lat, longitude: lng}, (error, result) => {
+            db.query('INSERT INTO user SET ?', 
+            {   
+                username: username, 
+                passwd: hashedPassword, 
+                latitude: lat, 
+                longitude: lng, 
+                fname: fname, 
+                lname: lname, 
+                address: address,
+                CNP: CNP
+            }, (error, result) => {
                 if(error) {
                     console.log(error);
                     res.render('register', {
@@ -136,7 +149,7 @@ app.post("/login", (req, res) => {
         } else {
             let isPasswordMatch = await bcrypt.compare(passwd, results[0].passwd);
             if(isPasswordMatch){
-                // set user session and redirect to dashboard
+ 
                 req.session.username = results[0].username;
                 req.session.latitude = results[0].latitude;
                 req.session.longitude = results[0].longitude;
