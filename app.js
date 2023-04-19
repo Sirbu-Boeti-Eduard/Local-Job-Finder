@@ -37,13 +37,30 @@ const publicDir = path.join(__dirname, './public');
 //Serve static files from here
 app.use(express.static(publicDir));
 
+//Session
+const session = require('express-session');
+
+app.use(session({
+    secret: 'eduard',
+    resave: false,
+    saveUninitialized: true
+}));
+
 //Rendering
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("index", { 
+        username: req.session.username,
+        latitude: req.session.latitude,
+        longitude: req.session.longitude,
+    });
 })
 
 app.get("/index", (req, res) => {
-    res.render("index");
+    res.render("index", { 
+        username: req.session.username,
+        latitude: req.session.latitude,
+        longitude: req.session.longitude,
+    });
 })
 
 app.get("/login", (req, res) => {
@@ -59,16 +76,6 @@ app.get("/register", (req, res) => {
 app.listen(9000, ()=> {})
 
 require('./query.js');
-
-//Session
-const session = require('express-session');
-
-app.use(session({
-    secret: 'eduard',
-    resave: false,
-    saveUninitialized: true
-}));
-
 
 //Register
 const bcrypt = require("bcryptjs");
@@ -130,9 +137,15 @@ app.post("/login", (req, res) => {
             let isPasswordMatch = await bcrypt.compare(passwd, results[0].passwd);
             if(isPasswordMatch){
                 // set user session and redirect to dashboard
-                req.session.user = results[0];
+                req.session.username = results[0].username;
+                req.session.latitude = results[0].latitude;
+                req.session.longitude = results[0].longitude;
+
                 res.render('index', {
-                    message_login: 'Log In succesful'
+                    message_login: 'Log In succesful',
+                    username: req.session.username,
+                    latitude: req.session.latitude,
+                    longitude: req.session.longitude,
                 })
             } else {
                 res.render('login', {
@@ -142,3 +155,4 @@ app.post("/login", (req, res) => {
         }
     });
 });
+

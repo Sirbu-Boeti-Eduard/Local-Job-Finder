@@ -25,6 +25,9 @@
                         <li><a href="index">Home</a></li>
                         <li><a href="login">Log In</a></li>
                         <li><a href="">About</a></li>
+                        {{#if username}}
+                            <li><strong>Hello,</strong> {{username}}</li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
@@ -62,7 +65,12 @@
                 <div class="col-md-6">
                     <div id="map">
                         <script src="js/generateMap.js"></script>
-
+                        {{#if username}}
+                            <script>
+                               if({{latitude}} && {{longitude}}) 
+                                    giveLatLong({{latitude}}, {{longitude}})
+                            </script>
+                        {{/if}}
                         <script src="js/generatePoints.js"></script>
                     </div>
                 </div>

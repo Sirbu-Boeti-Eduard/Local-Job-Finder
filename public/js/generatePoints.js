@@ -20,14 +20,22 @@ function addPoints(jobFind) {
     getData(jobFind, 3, 1000).then(jsonData =>{
         for (let key in jsonData) {
             const location =  jsonData[key];
+            
             const lat = parseFloat(location.latitude);
             const long = parseFloat(location.longitude);
-            const jobName = location.jobName.toLowerCase();
-            const jobNameShow = jobName.charAt(0).toUpperCase() + jobName.slice(1);
+            const jobName = location.jobName;
+            const jobDescription = location.jobDescription;
+            const LName = location.LName;
+            const FName = location.FName;
+            const stars = location.stars;
 
-            if(jobFind === jobName){
+            if(jobFind === jobName.toLowerCase()){
+                const displayName = LName + " " + FName;
+                const displayStars = stars + "⭐";
+                const popUpContent = '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription;
+
                 const marker = L.marker([lat, long]).addTo(map);
-                marker.bindPopup(jobNameShow);
+                marker.bindPopup(popUpContent);
             }
         }
     })
@@ -40,9 +48,18 @@ function displayAll(){
             const lat = parseFloat(location.latitude);
             const long = parseFloat(location.longitude);
             const jobName = location.jobName;
+            const jobDescription = location.jobDescription;
+            const LName = location.LName;
+            const FName = location.FName;
+            const stars = location.stars;
+
+            const displayName = LName + " " + FName;
+            const displayStars = stars + "⭐";
+            
+            const popUpContent = '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription;
 
             const marker = L.marker([lat, long]).addTo(map);
-            marker.bindPopup(jobName);
+            marker.bindPopup(popUpContent);
 
         }
     })

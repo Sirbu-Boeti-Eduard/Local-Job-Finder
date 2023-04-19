@@ -24,7 +24,7 @@ db.connect((error) => {
     }
 })
 
-const query = 'SELECT * FROM job';
+const query = 'SELECT latitude, longitude, jobName, jobDescription, FName, LName, stars FROM job JOIN worker ON(workerID)';
 
 db.query(query, (error, results, fields) => {
   if (error) {
