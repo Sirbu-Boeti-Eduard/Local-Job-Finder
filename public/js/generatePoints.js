@@ -25,8 +25,8 @@ function addPoints(jobFind) {
             const long = parseFloat(location.longitude);
             const jobName = location.jobName;
             const jobDescription = location.jobDescription;
-            const LName = location.LName;
-            const FName = location.FName;
+            const LName = location.lname;
+            const FName = location.fname;
             const stars = location.stars;
 
             if(jobFind === jobName.toLowerCase()){
@@ -43,14 +43,15 @@ function addPoints(jobFind) {
 
 function displayAll(){
     getData("all").then(jsonData => {
-        for (let key in jsonData) {
+        for (let key in jsonData) {            
             const location = jsonData[key];
+
             const lat = parseFloat(location.latitude);
             const long = parseFloat(location.longitude);
             const jobName = location.jobName;
             const jobDescription = location.jobDescription;
-            const LName = location.LName;
-            const FName = location.FName;
+            const LName = location.lname;
+            const FName = location.fname;
             const stars = location.stars;
 
             const displayName = LName + " " + FName;

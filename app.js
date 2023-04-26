@@ -75,10 +75,22 @@ app.get("/chat", (req, res) => {
     res.render("chat");
 })
 
+app.get("/post", (req, res) => {
+    res.render("post");
+})
+
 //Starting the app
 app.listen(9000, ()=> {})
 
-require('./query.js');
+//Updating Data
+
+function requireQuery(){
+    const q = require('./query.js');
+    q.Query();
+}
+
+setInterval(requireQuery, 10000);
+
 
 //Register
 const bcrypt = require("bcryptjs");
@@ -132,7 +144,6 @@ app.post("/register", (req, res) => {
      });
 });
 
-
 app.post("/login", (req, res) => {
     const { username, passwd } = req.body;
 
@@ -153,6 +164,7 @@ app.post("/login", (req, res) => {
                 req.session.username = results[0].username;
                 req.session.latitude = results[0].latitude;
                 req.session.longitude = results[0].longitude;
+                req.session.userID = results[0].id;
 
                 res.render('index', {
                     message_login: 'Log In succesful',
@@ -169,3 +181,42 @@ app.post("/login", (req, res) => {
     });
 });
 
+app.post("/post", (req, res) => {
+    const { jobName, jobDescription } = req.body;
+    const { latitude, longitude, userID } = req.session; 
+
+    db.query('INSERT INTO job SET ?', 
+            {   
+                latitude: latitude,
+                longitude: longitude,
+                jobName: jobName,
+                jobDescription: jobDescription,
+                userID: userID
+
+            }, (error, result) => {
+                if(error) {
+                    console.log(error);
+                    res.render('post', {
+                        message_post: 'An error occurred while posting a job'
+                    });
+                } else {
+                    res.render('index', {
+                        message_post: 'Job Posted!',
+                        username: req.session.username,
+                        latitude: req.session.latitude,
+                        longitude: req.session.longitude,
+                    });
+                }
+            });    
+
+})
+
+app.get("/logout", (req, res) => {
+    req.session.destroy(function(err) {
+        if (err) {
+          console.error(err);
+        } else {
+          res.redirect('/login');
+        }
+      });
+})

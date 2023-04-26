@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Post a Job</title>
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="navigation">
+                        <li><a href="index">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="/post" method="POST">
+                        <p>
+                            <label for="jobName">Enter a Job: </label>
+                            <input type="text" name="jobName" id="jobName">
+                        </p>
+                            
+                            <p><label for="jobDescription">Write a Description: </label></p>
+                            <textarea name="jobDescription" id="jobDescription" cols="30" rows="10"></textarea>
+                        
+                        <p>
+                            <input type="submit" value="Post" class="btn btn-primary">
+                        </p>
+
+                        <div class="row">
+                            {{#if message_post}}
+                                <h4 class="alert alert-danger mt-4">{{message_post}}</h4>          
+                            {{/if}} 
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

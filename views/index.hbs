@@ -27,6 +27,7 @@
                             <li><a href="chat">Chat</a></li>
                             <li><a href="post">Post a Job</a></li>
                             <li><strong>Hello,</strong> {{username}}</li>
+                            <li><a href="logout">Log Out</a></li>
                         {{else}}
                             <li><a href="login">Log In</a></li>
                         {{/if}}
@@ -42,6 +43,9 @@
     {{#if message_register}}
         <h4 class="alert alert-success mt-4">{{message_register}}</h4>          
     {{/if}}  
+    {{#if message_post}}
+        <h4 class="alert alert-success mt-4">{{message_post}}</h4>
+    {{/if}}
 
     <div class="content">
         <div class="container">
