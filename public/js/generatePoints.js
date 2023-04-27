@@ -1,4 +1,6 @@
-async function getData(jobFind, retries, delay){
+var markers = L.markerClusterGroup();
+
+async function getData(retries, delay){
     try{
         const getRequest = 'JSON/locations/all.json';
         const response = await fetch(getRequest, {cache: "reload"});
@@ -8,7 +10,7 @@ async function getData(jobFind, retries, delay){
     catch(error){
         if (retries > 0) {
             await new Promise(resolve => setTimeout(resolve, delay));
-            return getData(jobFind, retries - 1, delay);
+            return getData(retries - 1, delay);
         } 
         else {
             throw new Error('Failed to fetch data');
@@ -16,10 +18,14 @@ async function getData(jobFind, retries, delay){
     }
 }
 
-function addPoints(jobFind) {
-    getData(jobFind, 3, 1000).then(jsonData =>{
+function addPoints(username, jobFind) {
+    getData(3, 1000).then(jsonData =>{
         for (let key in jsonData) {
             const location =  jsonData[key];
+            const user = location.username;
+
+            if(user === username)
+                continue;
             
             const lat = parseFloat(location.latitude);
             const long = parseFloat(location.longitude);
@@ -34,17 +40,22 @@ function addPoints(jobFind) {
                 const displayStars = stars + "⭐";
                 const popUpContent = '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription;
 
-                const marker = L.marker([lat, long]).addTo(map);
+                const marker = L.marker([lat, long]);
                 marker.bindPopup(popUpContent);
+                markers.addLayer(marker);
             }
         }
     })
 }
 
-function displayAll(){
-    getData("all").then(jsonData => {
-        for (let key in jsonData) {            
+function displayAll(username){
+    getData(3, 1000).then(jsonData => {
+        for (let key in jsonData) {  
             const location = jsonData[key];
+            const user = location.username;
+
+            if(user === username)
+                continue;
 
             const lat = parseFloat(location.latitude);
             const long = parseFloat(location.longitude);
@@ -59,23 +70,23 @@ function displayAll(){
             
             const popUpContent = '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription;
 
-            const marker = L.marker([lat, long]).addTo(map);
+            const marker = L.marker([lat, long]);
             marker.bindPopup(popUpContent);
-
+            markers.addLayer(marker);
         }
     })
 }
 
-function loadPoints() {
+function loadPoints(username) {
     const urlParams = new URLSearchParams(window.location.search);
     const jobFind = urlParams.get('job');
 
     if (jobFind) {
-        addPoints(jobFind);
+        addPoints(username, jobFind);
     } 
     else {
-        displayAll();
+        displayAll(username);
     }
-}
 
-loadPoints();
+    map.addLayer(markers);
+}

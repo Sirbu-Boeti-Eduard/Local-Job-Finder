@@ -15,6 +15,11 @@
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
         integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
         crossorigin=""></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
 </head>
 <body>
     <div class="header">
@@ -71,13 +76,18 @@
                 <div class="col-md-6">
                     <div id="map">
                         <script src="js/generateMap.js"></script>
+                        <script src="js/generatePoints.js"></script>
                         {{#if username}}
                             <script>
                                if({{latitude}} && {{longitude}}) 
                                     giveLatLong({{latitude}}, {{longitude}})
+                                loadPoints("{{username}}");
+                            </script>
+                        {{else}} 
+                            <script>
+                                loadPoints();
                             </script>
                         {{/if}}
-                        <script src="js/generatePoints.js"></script>
                     </div>
                 </div>
             </div>
