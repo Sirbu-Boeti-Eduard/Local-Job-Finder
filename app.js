@@ -15,7 +15,6 @@ const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
-    port: process.env.PORT
 })
 
 //Database connect
@@ -89,7 +88,7 @@ function requireQuery(){
     q.Query();
 }
 
-setInterval(requireQuery, 10000);
+setInterval(requireQuery, 100000);
 
 
 //Register
@@ -166,12 +165,13 @@ app.post("/login", (req, res) => {
                 req.session.longitude = results[0].longitude;
                 req.session.userID = results[0].id;
 
-                res.render('index', {
+                /*res.render('index', {
                     message_login: 'Log In succesful',
                     username: req.session.username,
                     latitude: req.session.latitude,
                     longitude: req.session.longitude,
-                })
+                })*/
+                res.redirect('index');
             } else {
                 res.render('login', {
                     message_login: 'Invalid credentials'
