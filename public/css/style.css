@@ -45,3 +45,12 @@
 #map{
     height: 700px;
 }
+
+.messages ul li{
+    list-style: none;
+}
+
+.messages .message-box{
+    height: 500px; /* or whatever height you want */
+    overflow-y: scroll;
+  }

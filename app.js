@@ -63,7 +63,10 @@ app.get("/index", (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-    res.render("login");
+    if(!req.session.username)
+        res.render("login");
+    else
+        res.redirect("index");
 })
 
 app.get("/register", (req, res) => {
@@ -71,15 +74,96 @@ app.get("/register", (req, res) => {
 })
 
 app.get("/chat", (req, res) => {
-    res.render("chat");
+    if(req.session.username)
+        res.render("chat", {
+            username: req.session.username
+        });
+    else res.redirect("index");
+})
+
+app.get("/users", (req, res) => {
+    let username = req.session.username;
+  
+    Promise.all([
+      new Promise((resolve, reject) => {
+        db.query(
+          "SELECT DISTINCT username2 FROM chat WHERE username1 = ?",
+          [username],
+          (error, results) => {
+            if (error) reject(error);
+            else {
+              let users1 = results.map((result) => result.username2);
+              resolve(users1);
+            }
+          }
+        );
+      }),
+      new Promise((resolve, reject) => {
+        db.query(
+          "SELECT DISTINCT username1 FROM chat WHERE username2 = ?",
+          [username],
+          (error, results) => {
+            if (error) reject(error);
+            else {
+              let users2 = results.map((result) => result.username1);
+              resolve(users2);
+            }
+          }
+        );
+      }),
+    ])
+      .then((results) => {
+        let users = results.flat();
+        res.json(users);
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+      });
+  });
+  
+
+app.get("/history", (req, res) => {
+
+    let username = req.session.username;
+    
+    db.query('SELECT username1, username2, message FROM chat WHERE username1 = ? OR username2 = ?', [username, username], (error, results) => {
+        if (error) 
+            throw error;
+    
+        let messages = results.map(result => {
+            return {
+                username1: result.username1,
+                username2: result.username2,
+                message: result.message
+            };
+        });
+    
+        //console.log(messages);
+    
+        res.json(messages);
+      });
 })
 
 app.get("/post", (req, res) => {
-    res.render("post");
+    if(req.session.username)
+        res.render("post");
+    else
+        res.redirect("index");
+})
+
+app.get("/logout", (req, res) => {
+    req.session.destroy(function(err) {
+        if (err) {
+          console.error(err);
+        } else {
+          res.redirect('/login');
+        }
+      });
 })
 
 //Starting the app
-app.listen(9000, ()=> {})
+//app.listen(9000, ()=> {})
 
 //Updating Data
 
@@ -211,12 +295,32 @@ app.post("/post", (req, res) => {
 
 })
 
-app.get("/logout", (req, res) => {
-    req.session.destroy(function(err) {
-        if (err) {
-          console.error(err);
-        } else {
-          res.redirect('/login');
-        }
-      });
-})
+
+//chat
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  //console.log('User connected');
+
+  socket.on('disconnect', () => {
+    //console.log('User disconnected');
+  });
+
+  socket.on('chat message', (msg, username1, username2) => {
+    //console.log('Received message: ' + msg);
+    io.emit('chat message', msg, username1, username2);
+
+    db.query('INSERT INTO chat SET ?', 
+            {   
+                username1: username1, 
+                username2: username2, 
+                message: msg
+            });
+
+  });
+});
+
+server.listen(9000, () => {
+    console.log('Server started on port 9000');
+});
