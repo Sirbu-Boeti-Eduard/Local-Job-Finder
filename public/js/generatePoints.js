@@ -38,7 +38,7 @@ function addPoints(username, jobFind) {
             if(jobFind === jobName.toLowerCase()){
                 const displayName = LName + " " + FName;
                 const displayStars = stars + "⭐";
-                const popUpContent = '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription;
+                const popUpContent = '<a href="chat?user=' + user + '">' + '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription + '</a>';
 
                 const marker = L.marker([lat, long]);
                 marker.bindPopup(popUpContent);
@@ -67,8 +67,7 @@ function displayAll(username){
 
             const displayName = LName + " " + FName;
             const displayStars = stars + "⭐";
-            
-            const popUpContent = '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription;
+            const popUpContent = '<a href="chat?user=' + user + '">' + '<h6>' + jobName + '</h6>' + displayName + " " + displayStars + '<br>' + jobDescription + '</a>';
 
             const marker = L.marker([lat, long]);
             marker.bindPopup(popUpContent);

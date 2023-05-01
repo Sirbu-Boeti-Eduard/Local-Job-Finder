@@ -114,6 +114,7 @@ app.get("/users", (req, res) => {
     ])
       .then((results) => {
         let users = results.flat();
+        users = [...new Set(users)];
         res.json(users);
       })
       .catch((error) => {
@@ -125,13 +126,14 @@ app.get("/users", (req, res) => {
 
 app.get("/history", (req, res) => {
 
-    let username = req.session.username;
+    const username1 = req.session.username;
+    const username2 = req.query.user;
     
-    db.query('SELECT username1, username2, message FROM chat WHERE username1 = ? OR username2 = ?', [username, username], (error, results) => {
+    db.query('SELECT username1, username2, message FROM chat WHERE (username1 = ? AND username2 = ?) OR (username1 = ? AND username2 = ?)', [username1, username2, username2, username1], (error, results) => {
         if (error) 
             throw error;
     
-        let messages = results.map(result => {
+        const messages = results.map(result => {
             return {
                 username1: result.username1,
                 username2: result.username2,

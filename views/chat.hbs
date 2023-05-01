@@ -8,45 +8,45 @@
 
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
 
   </head>
   <body>
 
     {{#if username}}
-        <h1>Hello, {{username}}</h1>
-        <script>
-            var username = "{{username}}";
-        </script>
+        <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="navigation">
+                        <li><a href="index">Home</a></li>
+                        <li><a href="chat">Chat</a></li>
+                        <li><a href="post">Post a Job</a></li>
+                        <li><strong>Hello,</strong> {{username}}</li>
+                        <li><a href="logout">Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <div class="messages">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <h3>Other Chats:</h3>
                     <form action="chat" method="GET">
                         <input type="text" placeholder="Search for a new user:" name="user">
                     </form>
 
-                    <script>
-                        fetch('/users')
-                            .then(response => response.json())
-                            .then(users => {
-                                console.log(users);
-                            const userList = document.querySelector('.users');
-                            users.forEach(user => {
-                                const li = document.createElement('li');
-                                //li.textContent = user;
-                                li.innerHTML = `<a href="/chat?user=${user}">${user}</a>`;
-                                userList.appendChild(li);
-                            });
-                            })
-                            .catch(error => console.error(error));
-                    </script>
-
-                    <ul class="users">
-                    </ul>
+                    <script src="js/chatUsers.js"></script>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="users"></ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                         <div class="row message-box">
                             <div class="col-md-6">
                                 <ul id="messages2"></ul>
@@ -67,73 +67,22 @@
 
                         <script src="/socket.io/socket.io.js"></script>
                         <script>
-                            const socket = io();
-                            const messageList1 = document.getElementById('messages1');
-                            const messageList2 = document.getElementById('messages2');
-
-                            const chatForm = document.getElementById('chat-form');
-                            const messageInput = document.getElementById('message-input');
-
-                            fetch('/history')
-                            .then(response => response.json())
-                            .then(messages => {
-                            const messageList1 = document.getElementById('messages1');
-                            const messageList2 = document.getElementById('messages2');
-                            messages.forEach(message => {
-                                const li = document.createElement('li');
-                                if(username === message.username1){
-                                    messageList1.appendChild(createMessageElement("You", message.message));
-                                    messageList2.appendChild(createEmpty());
-                                }
-                                else{
-                                    messageList2.appendChild(createMessageElement(message.username1, message.message));
-                                    messageList1.appendChild(createEmpty());
-                                }
-                                
-                                //userList.appendChild(li);
-                            });
-                            })
-                            .catch(error => console.error(error));
-
-                            chatForm.addEventListener('submit', (event) => {
-                                event.preventDefault();
-                                const message = messageInput.value;
-
-                                const urlParams = new URLSearchParams(window.location.search);
-
-                                const username1 = username;
-                                const username2 = urlParams.get('user');
-
-                                socket.emit('chat message', message, username1, username2);
-                                messageInput.value = '';
-                                //messageList.appendChild(createMessageElement(username, message));
-                            });
-
-                            socket.on('chat message', (msg, username1, username2) => {
-                                if(username1 === username){
-                                    messageList1.appendChild(createMessageElement("You", msg));
-                                    messageList2.appendChild(createEmpty());
-                                }
-                                else{
-                                    messageList2.appendChild(createMessageElement(username1, msg));
-                                    messageList1.appendChild(createEmpty());
-                                }
-                                //console.log(username1, username2);
-
-                            });
-
-                            function createMessageElement(sender, message) {
-                                const li = document.createElement('li');
-                                li.innerHTML = `<b>${sender}:</b> ${message}`;
-                                return li;
-                            }
-
-                            function createEmpty(){
-                                const li = document.createElement('li');
-                                li.innerHTML = `<br>`;
-                                return li;
-                            }
+                            let username = "{{username}}";
                         </script>
+                        <script src="js/chat.js"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="navigation">
+                        <li>Terms & Conditions</li>
+                        <li>Copyright</li>
+                    </ul>
                 </div>
             </div>
         </div>
