@@ -25,7 +25,7 @@ function Query(){
       }
   })
 
-  const query = 'SELECT username, job.latitude, job.longitude, jobName, jobDescription, fname, lname, stars FROM job JOIN user ON(job.userID = user.id)';
+  const query = 'SELECT username, job.latitude, job.longitude, jobName, jobDescription, fname, lname FROM job JOIN user ON(job.userID = user.id)';
 
   db.query(query, (error, results, fields) => {
     if (error) {
