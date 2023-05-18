@@ -1,6 +1,5 @@
 const socket = io();
-const messageList1 = document.getElementById('messages1');
-const messageList2 = document.getElementById('messages2');
+const messageList = document.getElementById('messages');
 
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
@@ -11,17 +10,16 @@ const user = urlParams.get('user');
 fetch("/history?user=" + encodeURIComponent(user))
 .then(response => response.json())
 .then(messages => {
-const messageList1 = document.getElementById('messages1');
-const messageList2 = document.getElementById('messages2');
+
 messages.forEach(message => {
     const li = document.createElement('li');
     if(username === message.username1){
-        messageList1.appendChild(createMessageElement("You", message.message));
-        messageList2.appendChild(createEmpty());
+        messageList.appendChild(createMessageElementYou(message.message));
+        messageList.appendChild(createEmpty());
     }
     else{
-        messageList2.appendChild(createMessageElement(message.username1, message.message));
-        messageList1.appendChild(createEmpty());
+        messageList.appendChild(createMessageElementUser(message.message));
+        messageList.appendChild(createEmpty());
     }
     //userList.appendChild(li);
 });
@@ -44,25 +42,33 @@ chatForm.addEventListener('submit', (event) => {
 
 socket.on('chat message', (msg, username1, username2) => {
     if(username1 === username){
-        messageList1.appendChild(createMessageElement("You", msg));
-        messageList2.appendChild(createEmpty());
+        messageList.appendChild(createMessageElementYou(msg));
+        messageList.appendChild(createEmpty());
     }
     else{
-        messageList2.appendChild(createMessageElement(username1, msg));
-        messageList1.appendChild(createEmpty());
+        messageList.appendChild(createMessageElementUser(msg));
+        messageList.appendChild(createEmpty());
     }
-    //console.log(username1, username2);
 
 });
 
-function createMessageElement(sender, message) {
-    const li = document.createElement('li');
-    li.innerHTML = `<b>${sender}:</b> ${message}`;
-    return li;
+function createMessageElementYou(message) {
+    const div = document.createElement('div');
+    div.innerHTML = `${message}`;
+    div.id = 'you';
+    return div;
+}
+
+function createMessageElementUser(message) {
+    const div = document.createElement('div');
+    div.innerHTML = `${message}`;
+    div.id = 'user';
+    return div;
 }
 
 function createEmpty(){
-    const li = document.createElement('li');
-    li.innerHTML = `<br>`;
-    return li;
+    const div = document.createElement('div');
+    div.innerHTML = `<br>`;
+    div.id = 'empty';
+    return div;
 }

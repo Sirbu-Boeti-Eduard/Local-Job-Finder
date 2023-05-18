@@ -33,10 +33,10 @@
     <div class="messages">
         <div class="container">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h3>Other Chats:</h3>
                     <form action="chat" method="GET">
-                        <input type="text" placeholder="Search for a new user:" name="user">
+                        <input type="text" placeholder="Search for a user:" name="user" id="search-user">
                     </form>
 
                     <script src="js/chatUsers.js"></script>
@@ -46,30 +46,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-10">
-                        <div class="row message-box">
-                            <div class="col-md-6">
-                                <ul id="messages2"></ul>
-                            </div>
-                            <div class="col-md-6">
-                                 <ul id="messages1" style="float: right"></ul>
-                            </div>
-                        </div>
-            
-                        <div class="row">
-                            <div class="col-md-12">
-                                <form id="chat-form">
-                                    <input id="message-input" type="text" />
-                                    <button type="submit">Send</button>
-                                </form>
-                            </div>
-                        </div>
 
-                        <script src="/socket.io/socket.io.js"></script>
+                <div class="col-md-9">
+                    <div class="row">
+                        <h2 id="name"></h2>
                         <script>
-                            let username = "{{username}}";
+                            let name = document.getElementById('name');
+                            const url = new URLSearchParams(window.location.search);
+                            if(url.get('user')){
+                                let get = url.get('user');
+                                name.innerHTML = "You're talking to: " + get;
+                            } else {
+                                name.innerHTML = "Try chatting with someone";
+                            }
                         </script>
-                        <script src="js/chat.js"></script>
+                    </div>
+
+                    <div class="row message-box">
+                        <div class="col-md-12">
+                                <ul id="messages"></ul>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="chat-form">
+                                <input id="message-input" type="text" />
+                                <button type="submit">Send</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <script src="/socket.io/socket.io.js"></script>
+                    <script>
+                        let username = "{{username}}";
+                    </script>
+                    <script src="js/chat.js"></script>
                 </div>
             </div>
         </div>

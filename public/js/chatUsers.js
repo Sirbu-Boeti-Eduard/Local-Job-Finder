@@ -8,6 +8,7 @@ users.forEach(user => {
     //li.textContent = user;
     li.innerHTML = `<a href="/chat?user=${user}">${user}</a>`;
     userList.appendChild(li);
+
 });
 })
 .catch(error => console.error(error));

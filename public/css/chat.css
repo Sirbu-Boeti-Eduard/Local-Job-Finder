@@ -6,11 +6,6 @@
     list-style: none;
 }
 
-.messages ul li a{
-    text-decoration: none;
-    color: black;
-}
-
 .messages .message-box{
     height: 500px;
     overflow-y: scroll;
@@ -19,7 +14,128 @@
 .messages #chat-form{
     text-align: center;
 }
+/* Allign your messages to right */
+#you{
+    float: right;
+}
 
-.messages .message-box ul li{
-    background-color: lightgray;
+/* Allign other user messages to left */
+#left{
+    float: left;
+}
+
+/* Clear the float */
+#empty{
+    clear: left;
+    clear: right;
+}
+
+/* Style the messages */
+#you, #user{
+  background-color: lightseagreen;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  display: inline-block;
+}
+
+#chat-form{
+    background-color: #f1f1f1;
+    padding: 20px 0;
+    margin-bottom: 0;
+}
+
+/* Customize message bar */
+
+#message-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    width: 70%;
+}
+
+#message-input:focus {
+    outline: none;
+    border-color: lightseagreen;
+}
+
+/* Customize Send button */
+#chat-form button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: lightseagreen;
+    color: #fff;
+    cursor: pointer;
+}
+
+#chat-form button:hover {
+    background-color: darkseagreen;
+}
+  
+/* Display users to chat with */
+.col-md-3 {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  #search-user {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+  }
+
+  #search-user:focus{
+    outline: none;
+    border-color: lightseagreen;
+  }
+  
+  .users {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .users li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid black;
+  }
+
+  .users li a{
+    text-decoration: none;
+    color: black;
+    width: 100%;
+  }
+
+  .users li:last-child {
+    border-bottom: none;
+  }
+  
+  .users li:hover{
+    background-color: rgba(32, 178, 171, 0.500);
+  }
+
+#name {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    text-align: center;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
 }
