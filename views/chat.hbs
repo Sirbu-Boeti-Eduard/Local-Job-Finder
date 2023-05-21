@@ -11,19 +11,29 @@
     <link rel="stylesheet" href="css/chat.css">
 
   </head>
-  <body>
+<body>
 
-    {{#if username}}
-        <div class="header">
+    <div class="header">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
                     <ul class="navigation">
                         <li><a href="index">Home</a></li>
                         <li><a href="chat">Chat</a></li>
                         <li><a href="post">Post a Job</a></li>
-                        <li><strong>Hello,</strong> {{username}}</li>
-                        <li><a href="logout">Log Out</a></li>
+                        <li><a href="about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="navigation">
+                        {{#if username}}
+                            <li>Hello, <strong>{{username}}</strong></li>
+                            <li><a href="logout">Log Out</a></li>
+                        {{else}}
+                            <li><a href="login">Log In</a></li>
+                            <li><a href="register">Register</a></li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
@@ -33,7 +43,7 @@
     <div class="messages">
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 chat-area">
                     <h3>Other Chats:</h3>
                     <form action="chat" method="GET">
                         <input type="text" placeholder="Search for a user:" name="user" id="search-user">
@@ -100,6 +110,5 @@
         </div>
     </div>
 
-    {{/if}}
   </body>
 </html>

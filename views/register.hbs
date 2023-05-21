@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/register.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
@@ -21,11 +22,24 @@
     <div class="header">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
                     <ul class="navigation">
                         <li><a href="index">Home</a></li>
-                        <li><a href="login">Log In</a></li>
-                        <li><a href="register">Register</a></li>
+                        <li><a href="chat">Chat</a></li>
+                        <li><a href="post">Post a Job</a></li>
+                        <li><a href="about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="navigation">
+                        {{#if username}}
+                            <li>Hello, <strong>{{username}}</strong></li>
+                            <li><a href="logout">Log Out</a></li>
+                        {{else}}
+                            <li><a href="login">Log In</a></li>
+                            <li><a href="register">Register</a></li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>

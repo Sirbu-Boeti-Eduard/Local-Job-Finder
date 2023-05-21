@@ -45,3 +45,8 @@
 #map{
     height: 700px;
 }
+
+.col-md-3 .navigation{
+    text-align: right;
+    padding-right: 0;
+}

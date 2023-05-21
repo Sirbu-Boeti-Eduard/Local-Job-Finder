@@ -70,7 +70,7 @@ app.get("/login", (req, res) => {
 })
 
 app.get("/register", (req, res) => {
-    res.render("register");
+    res.render("register", {username: req.session.username});
 })
 
 app.get("/chat", (req, res) => {
@@ -78,7 +78,7 @@ app.get("/chat", (req, res) => {
         res.render("chat", {
             username: req.session.username
         });
-    else res.redirect("index");
+    else res.redirect("login");
 })
 
 app.get("/users", (req, res) => {
@@ -123,7 +123,6 @@ app.get("/users", (req, res) => {
       });
   });
   
-
 app.get("/history", (req, res) => {
 
     const username1 = req.session.username;
@@ -149,9 +148,9 @@ app.get("/history", (req, res) => {
 
 app.get("/post", (req, res) => {
     if(req.session.username)
-        res.render("post");
+        res.render("post", {username: req.session.username});
     else
-        res.redirect("index");
+        res.redirect("login");
 })
 
 app.get("/logout", (req, res) => {
@@ -164,6 +163,16 @@ app.get("/logout", (req, res) => {
       });
 })
 
+app.get("/about", (req, res) => {
+    fs.readFile('./public/about-us.html', 'utf-8', (err,data) => {
+        if(err)
+            {
+                res.redirect("index");
+            }
+        else
+            res.render("about", {content: data, username: req.session.username});
+    })
+})
 //Starting the app
 //app.listen(9000, ()=> {})
 
@@ -251,13 +260,13 @@ app.post("/login", (req, res) => {
                 req.session.longitude = results[0].longitude;
                 req.session.userID = results[0].id;
 
-                /*res.render('index', {
+                res.render('index', {
                     message_login: 'Log In succesful',
                     username: req.session.username,
                     latitude: req.session.latitude,
                     longitude: req.session.longitude,
-                })*/
-                res.redirect('index');
+                })
+                //res.redirect('index');
             } else {
                 res.render('login', {
                     message_login: 'Invalid credentials'
@@ -318,6 +327,9 @@ io.on('connection', (socket) => {
                 username1: username1, 
                 username2: username2, 
                 message: msg
+            }, (err, result) => {
+                if(err)
+                    socket.emit('chat error', 'User does not exist');
             });
 
   });

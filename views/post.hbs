@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/post.css">
 
 </head>
 <body>
@@ -15,17 +16,33 @@
     <div class="header">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
                     <ul class="navigation">
                         <li><a href="index">Home</a></li>
                         <li><a href="chat">Chat</a></li>
                         <li><a href="post">Post a Job</a></li>
-                        <li><a href="logout">Log Out</a></li>
+                        <li><a href="about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="navigation">
+                        {{#if username}}
+                            <li>Hello, <strong>{{username}}</strong></li>
+                            <li><a href="logout">Log Out</a></li>
+                        {{else}}
+                            <li><a href="login">Log In</a></li>
+                            <li><a href="register">Register</a></li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
+    {{#if message_post}}
+        <h4 class="alert alert-success mt-4">{{message_post}}</h4>
+    {{/if}}
 
     <div class="content">
         <div class="container">

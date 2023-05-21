@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In</title>
+    <title>About Us</title>
 
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/login.css">
 
 </head>
 <body>
@@ -43,30 +42,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="/login" method="POST">
-                        <p>
-                            <label for="username">Username</label>
-                            <input type="text" name="username" id="username">
-                        </p>
-
-                        <p>
-                            <label for="passwd">Password</label>
-                            <input type="password" name="passwd" id="passwd">
-                        </p>
-
-                        <p>
-                            <input type="submit" value="Log In">
-                        </p>
-
-                        <p class="register-link">
-                            Don't have an account? |
-                            <a href="/register">Register here</a>
-                        </p>
-
-                        {{#if message_login}}
-                            <h4 class="alert alert-danger mt-4">{{message_login}}</h4>
-                        {{/if}}
-                    </form>
+                    {{{content}}}
                 </div>
             </div>
         </div>
