@@ -51,12 +51,10 @@
                     <form action="/post" method="POST">
                         <p>
                             <label for="jobName">Enter a Job: </label>
-                            <input type="text" name="jobName" id="jobName">
-                        </p>
-                            
+                            <input type="text" name="jobName" id="jobName" required>
+                        </p> 
                             <p><label for="jobDescription">Write a Description: </label></p>
-                            <textarea name="jobDescription" id="jobDescription" cols="30" rows="10"></textarea>
-                        
+                            <textarea name="jobDescription" id="jobDescription" cols="30" rows="10" required></textarea>
                         <p>
                             <input type="submit" value="Post" class="btn btn-primary">
                         </p>
