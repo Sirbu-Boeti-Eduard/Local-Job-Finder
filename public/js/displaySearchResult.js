@@ -5,7 +5,7 @@ function searchFor(){
     if (jobName) {
         message = document.getElementById("message");
         jobName = jobName.charAt(0).toUpperCase() + jobName.slice(1);
-        message.innerHTML = '<h2> You searched for: ' + jobName + '</h2>';
+        message.innerHTML = '<h3> You searched for: ' + jobName + '</h3>';
     } 
 }
 

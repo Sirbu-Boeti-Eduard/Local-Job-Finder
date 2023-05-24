@@ -29,12 +29,12 @@
     margin: 2px;
     max-width: 230px;
 
-    background-color: lightgrey;
+    background-color: rgba(32, 178, 171, 0.500);
     list-style: none;
 }
 
 #result ul li:hover {
-    background: #eee;
+    background: darkseagreen;
 }
 
 #result ul a{
