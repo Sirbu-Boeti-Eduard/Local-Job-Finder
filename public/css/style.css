@@ -50,3 +50,19 @@
     text-align: right;
     padding-right: 0;
 }
+
+/* Map Points Styling */
+
+a {
+    text-decoration: none;
+}
+
+h5 {
+    color: seagreen;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.name, .description {
+    color: black;
+}

@@ -18,6 +18,14 @@ async function getData(retries, delay){
     }
 }
 
+function generatePopUpContent(user, jobName, displayName, jobDescription){
+    const popUpContent = '<a href="chat?user=' + user + '">' + '<h5>' + jobName + '</h5>';
+    const popUpContent1 = '<span class="name">' + '<em>by: </em>' + '<strong>' + displayName + '</strong>' + '</span>' + '<br></br>';
+    const popUpContent2 = '<span class="description">' + '<em>' + jobDescription + '</em>' + '</span>' + '</a>';
+
+    return popUpContent + popUpContent1 + popUpContent2;
+}
+
 function addPoints(username, jobFind) {
     getData(3, 1000).then(jsonData =>{
         for (let key in jsonData) {
@@ -38,7 +46,9 @@ function addPoints(username, jobFind) {
             if(jobFind === jobName.toLowerCase()){
                 const displayName = LName + " " + FName;
                 //const displayStars = stars + "⭐";
-                const popUpContent = '<a href="chat?user=' + user + '">' + '<h6>' + jobName + '</h6>' + displayName + " " + '<br>' + jobDescription + '</a>';
+                //const popUpContent = '<a href="chat?user=' + user + '">' + '<h6>' + jobName + '</h6>' + displayName + " " + '<br>' + jobDescription + '</a>';
+
+                const popUpContent = generatePopUpContent(user, jobName, displayName, jobDescription);
 
                 const marker = L.marker([lat, long]);
                 marker.bindPopup(popUpContent);
@@ -67,7 +77,9 @@ function displayAll(username){
 
             const displayName = LName + " " + FName;
             //const displayStars = stars + "⭐";
-            const popUpContent = '<a href="chat?user=' + user + '">' + '<h6>' + jobName + '</h6>' + displayName + " "  + '<br>' + jobDescription + '</a>';
+            //const popUpContent = '<a href="chat?user=' + user + '">' + '<h6>' + jobName + '</h6>' + displayName + " "  + '<br>' + jobDescription + '</a>';
+
+            const popUpContent = generatePopUpContent(user, jobName, displayName, jobDescription);
 
             const marker = L.marker([lat, long]);
             marker.bindPopup(popUpContent);
