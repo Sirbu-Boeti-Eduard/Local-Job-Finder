@@ -23,25 +23,6 @@
     padding-bottom: 20px;
 }
 
-#result ul li {
-    padding: 5px;
-    /* Need other solution*/
-    margin: 2px;
-    max-width: 230px;
-
-    background-color: rgba(32, 178, 171, 0.500);
-    list-style: none;
-}
-
-#result ul li:hover {
-    background: darkseagreen;
-}
-
-#result ul a{
-    text-decoration: none;
-    color: black;
-}
-
 #map{
     height: 700px;
 }
@@ -49,20 +30,4 @@
 .col-md-3 .navigation{
     text-align: right;
     padding-right: 0;
-}
-
-/* Map Points Styling */
-
-a {
-    text-decoration: none;
-}
-
-h5 {
-    color: seagreen;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.name, .description {
-    color: black;
 }

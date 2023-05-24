@@ -40,7 +40,7 @@ function showResults(val) {
     let list = '';
     let terms = autocompleteMatch(val);
     for (i=0; i<terms.length; i++) {
-        list += '<a href="index?job=' + terms[i].toLowerCase() +'">' + '<li class="results">' + terms[i] + '</li>' + '</a>';
+       list += '<li class="results">' + '<a href="index?job=' + terms[i].toLowerCase() +'">' + terms[i] + '</a>' + '</li>';
     }
     res.innerHTML = '<ul>' + list + '</ul>';
 }
