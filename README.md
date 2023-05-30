@@ -17,10 +17,21 @@
 ## Technologies
 
   * Front-End
-    * * HTML + Handlebars
-    * * CSS
-    * * Javascript
-    * * Bootstrap (CSS)
+    * HTML + Handlebars
+    * CSS
+    * Javascript
+    * Bootstrap (CSS)
   * Back-End
     * Node.JS
-    * * Express (+ Express-Session)
+    * Express (+ Express-Session)
+  * Node.JS Used Libraries
+    * Dotenv (read .env)
+    * Path (.env path & publicDir path)
+    * FS (read about.html)
+    * BcryptJS (password hashing)
+    * Socket.IO (real-time chat)
+    * HTTP (needed for Socket.IO)
+  * Misc.
+    * MySQL (+ phpMyadmin)
+    * Leaflet API (interactive map w/ clickable markers)
+    * JSON files (used for fetch requests)
