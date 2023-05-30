@@ -17,11 +17,11 @@
   * Need a job?
     * Search for it and start chatting.
   * Need to hire an employee?
-    * Post a job listings and wait.
+    * Post a job listing and wait.
   
   #### Case 2
   * Are you open to work?
-    * Post your desired job and wait.
+    * Post your job listing with the desired job and wait.
   * Need to hire an employee?
     * Search for potential employees and start chatting.
 
