@@ -18,11 +18,9 @@
 
   * Front-End
     * * HTML + Handlebars
-    ** CSS
-    ** Javascript
-    ** Bootstrap (CSS)
+    * * CSS
+    * * Javascript
+    * * Bootstrap (CSS)
   * Back-End
-    ** Node.JS
-    ** Express (+ Express-Session)
-      *** Libraries Used
-        **** Dotenv (read .env)
+    * * Node.JS
+    * * Express (+ Express-Session)
