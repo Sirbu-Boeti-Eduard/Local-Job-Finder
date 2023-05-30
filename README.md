@@ -4,7 +4,7 @@
 
   LocalJobFinder is a web application designed to easily search job listings using our interactive map.
   
-  ### Actual Functionality
+  ### Actual Functionality: User -> User(handyman/tutor etc.)
   
   * Need a tutor, handyman, someone to do something for you?
     * Search for them and start chatting.
@@ -13,13 +13,19 @@
   
   ### Potential Functionality
   
-  #### Case 1
+  #### Case 1: User(handyman/tutor etc.) -> User
+   * Need a handyman/tutor etc.?
+     * Post a job listing and wait.
+   * Want to find someone who needs your sevice?
+     * Search and start chatting with them.
+  
+  #### Case 2: User -> Company
   * Need a job?
     * Search for it and start chatting.
   * Need to hire an employee?
     * Post a job listing and wait.
   
-  #### Case 2
+  #### Case 3: Company -> User
   * Are you open to work?
     * Post your job listing with the desired job and wait.
   * Need to hire an employee?
