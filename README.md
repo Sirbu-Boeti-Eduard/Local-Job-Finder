@@ -22,5 +22,5 @@
     * * Javascript
     * * Bootstrap (CSS)
   * Back-End
-    * * Node.JS
+    * Node.JS
     * * Express (+ Express-Session)
