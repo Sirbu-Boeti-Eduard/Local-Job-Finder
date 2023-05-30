@@ -17,7 +17,7 @@
 ## Technologies
 
   * Front-End
-    ** HTML + Handlebars
+    * * HTML + Handlebars
     ** CSS
     ** Javascript
     ** Bootstrap (CSS)
