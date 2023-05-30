@@ -2,15 +2,37 @@
 
 ## Project Description
 
-  LocalJobFinder is a web application designed to easily search job listings and hire who you need.
+  LocalJobFinder is a web application designed to easily search job listings using our interactive map.
+  
+  ### Actual Functionality
+  
+  * Need a tutor, handyman, someone to do something for you?
+    * Search for them and start chatting.
+  * Want to sell your services?
+    * Post a job listing and wait.
+  
+  ### Potential Functionality
+  
+  #### Case 1
+  * Need a job?
+    * Search for it and start chatting.
+  * Need to hire an employee?
+    * Post a job listings and wait.
+  
+  #### Case 2
+  * Are you open to work?
+    * Post your desired job and wait.
+  * Need to hire an employee?
+    * Search for potential employees and start chatting.
+
 
 ## Key Features
 
-  * User Authentication: LocalJobFinder offers a secure login and logout system, allowing users to create personalized accounts, access their saved preferences, and maintain a history of their job searches.
+  * User Authentication: LocalJobFinder offers a secure login and logout system.
 
-  * Job Listings with Interactive Map: The application integrates an interactive map powered by Leaflet, which displays markers representing available job opportunities. Users can browse the map to visualize job locations and quickly identify relevant opportunities in their desired area.
+  * Job Listings with Interactive Map: The application integrates an interactive map powered by Leaflet, which displays markers representing job postings. Users can browse the map to visualize job locations and quickly identify relevant job postings in the area.
 
-  * Marker Details: When a user clicks on a marker, detailed information related to the job posting is displayed. This includes the title, name, and description of the job, providing job seekers with essential details to assess the relevance and suitability of each opportunity.
+  * Marker Details: When a user clicks on a marker, detailed information related to the job posting is displayed. This includes the title, name, and description of the job.
 
   * Integrated Chat: LocalJobFinder facilitates seamless communication between job seekers and employers by incorporating a built-in chat feature. Users can engage in real-time conversations to inquire about job postings, schedule interviews, and exchange necessary information.
 
