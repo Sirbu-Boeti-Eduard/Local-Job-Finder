@@ -60,6 +60,6 @@
     * Socket.IO (real-time chat)
     * HTTP (needed for Socket.IO)
   * Misc.
-    * MySQL (+ phpMyadmin)
+    * Docker Container (MySQL + phpMyadmin)
     * Leaflet API (interactive map w/ clickable markers)
     * JSON files (used for fetch requests)
